@@ -41,28 +41,28 @@ public class SocialMediaController {
 
     @PostMapping("/register")
     public ResponseEntity<Account> register(@RequestBody Account account) {
-        return ResponseEntity.ok(accountService.registerAccount(account));
+        return ResponseEntity.ok(this.accountService.registerAccount(account));
     }
 
     @PostMapping("/login")
     public ResponseEntity<Account> login(@RequestBody Account account) {
-        return ResponseEntity.ok(accountService.loginAccount(account));
+        return ResponseEntity.ok(this.accountService.loginAccount(account));
     }
 
     @PostMapping("/messages")
     public ResponseEntity<Message> postMessage(@RequestBody Message message) {
-        Message createdMessage = messageService.createMessage(message);
+        Message createdMessage = this.messageService.createMessage(message);
         return ResponseEntity.ok(createdMessage);
     }
 
     @GetMapping("/messages")
     public ResponseEntity<List<Message>> getMessages() {
-        return ResponseEntity.ok(messageService.getAllMessages());
+        return ResponseEntity.ok(this.messageService.getAllMessages());
     }
 
     @GetMapping("/messages/{messageId}")
     public ResponseEntity<?> getMessageById(@PathVariable Integer messageId) {
-        Optional<Message> message = messageService.getMessageByMessageId(messageId);
+        Optional<Message> message = this.messageService.getMessageByMessageId(messageId);
         if (message.isPresent()) {
             // ResponseEntity will return a 200 if message exists
             return ResponseEntity.ok(message.get());
@@ -74,7 +74,7 @@ public class SocialMediaController {
 
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<?> deleteMessage(@PathVariable Integer messageId) {
-        int rowsDeleted = messageService.deleteMessageById(messageId);
+        int rowsDeleted = this.messageService.deleteMessageById(messageId);
         if (rowsDeleted == 1) {
             // Return 1 in body
             return ResponseEntity.ok(rowsDeleted);
@@ -90,14 +90,14 @@ public class SocialMediaController {
             @RequestBody Map<String, String> body) {
 
         String messageText = body.get("messageText");
-        int rowsUpdated = messageService.updateMessageText(messageId, messageText);
+        int rowsUpdated = this.messageService.updateMessageText(messageId, messageText);
 
         return ResponseEntity.ok(rowsUpdated);
     }
 
-    // @GetMapping("/accounts/{accountId}/messages")
-    // public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable Integer accountId) {
-    //     List<Message> messages = messageService.getMessagesByAccountId(accountId);
-    //     return ResponseEntity.ok(messages);
-    // }
+    @GetMapping("/accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getMessagesByAccountId(@PathVariable Integer accountId) {
+        List<Message> messages = this.messageService.getMessagesByAccountId(accountId);
+        return ResponseEntity.ok(messages);
+    }
 }
