@@ -40,23 +40,24 @@ public class SocialMediaController {
     private MessageService messageService;
 
     @PostMapping("/register")
-    public Account register(@RequestBody Account account) {
-        return accountService.registerAccount(account);
+    public ResponseEntity<Account> register(@RequestBody Account account) {
+        return ResponseEntity.ok(accountService.registerAccount(account));
     }
 
     @PostMapping("/login")
-    public Account login(@RequestBody Account account) {
-        return accountService.loginAccount(account);
+    public ResponseEntity<Account> login(@RequestBody Account account) {
+        return ResponseEntity.ok(accountService.loginAccount(account));
     }
 
     @PostMapping("/messages")
-    public Message postMessage(@RequestBody Message message) {
-        return messageService.createMessage(message);
+    public ResponseEntity<Message> postMessage(@RequestBody Message message) {
+        Message createdMessage = messageService.createMessage(message);
+        return ResponseEntity.ok(createdMessage);
     }
 
     @GetMapping("/messages")
-    public List<Message> getMessages() {
-        return messageService.getAllMessages();
+    public ResponseEntity<List<Message>> getMessages() {
+        return ResponseEntity.ok(messageService.getAllMessages());
     }
 
     @GetMapping("/messages/{messageId}")
