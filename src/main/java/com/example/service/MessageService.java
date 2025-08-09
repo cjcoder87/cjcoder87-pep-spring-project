@@ -71,4 +71,8 @@ public class MessageService {
         return 1;
     }
 
+    public List<Message> getMessagesByAccountId(Integer accountId) {
+        return this.messageRepository.findMessageByAccountId(accountId);
+    }
+
 }
