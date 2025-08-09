@@ -33,7 +33,7 @@ public class MessageService {
             throw new InvalidMessageRequestException("PostedBy must be a valid user");
 
         // Set time posted if needed (e.g., current epoch seconds)
-        message.setTimePostedEpoch(System.currentTimeMillis() / 1000);
+        message.setTimePostedEpoch(message.getTimePostedEpoch());
 
         return this.messageRepository.save(message);
     }
