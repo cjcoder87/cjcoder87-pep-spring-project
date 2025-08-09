@@ -11,20 +11,27 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleDuplicateUsername(UsernameAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
-    
 
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<String> handleIllegalArgument(InvalidInputException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-   @ExceptionHandler(UserNotAuthorizedException.class)
+
+    @ExceptionHandler(UserNotAuthorizedException.class)
     public ResponseEntity<String> handleIllegalArgument(UserNotAuthorizedException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
-      @ExceptionHandler(InvalidMessageRequestException.class)
+
+    @ExceptionHandler(InvalidMessageRequestException.class)
     public ResponseEntity<String> handleIllegalArgument(InvalidMessageRequestException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidMessageUpdateException.class)
+    public ResponseEntity<String> handleInvalidUpdate(InvalidMessageUpdateException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     // Generic fallback for any uncaught exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {

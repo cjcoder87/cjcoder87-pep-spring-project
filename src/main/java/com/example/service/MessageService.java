@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.entity.Message;
 import com.example.exception.InvalidMessageRequestException;
+import com.example.exception.InvalidMessageUpdateException;
 import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
 import com.example.service.util.MessageValidator;
@@ -50,9 +54,21 @@ public class MessageService {
         boolean exists = this.messageRepository.existsById(messageId);
         if (exists) {
             this.messageRepository.deleteById(messageId);
-            return 1; // One row deleted
+            return 1;
         }
-        return 0; // Message did not exist
+        return 0;
+    }
+
+    public int updateMessageText(int messageId, String messageText) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new InvalidMessageUpdateException("Message not found"));
+
+        message.setMessageText(messageText);
+
+        this.messageValidator.isValidMessage(message);
+        messageRepository.save(message);
+
+        return 1;
     }
 
 }
